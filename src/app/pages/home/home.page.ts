@@ -13,14 +13,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomePage implements OnInit {
 
-  //Array to store the list of movies returned from the API
+  //Array to store the list of movies
   movies: any[] = [];
 
   //Variable to store the search text entered by the user
   searchText: string = '';
-
-  //API key to authenticate requests to TMDB
-  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
   constructor(private http: HttpClient) { }
 
@@ -30,14 +27,17 @@ export class HomePage implements OnInit {
   }
 
   getTrendingMovies() {
-
+    //Call TMBD to get today's trending movies
+    this.http.get<any>('https://api.themoviedb.org/3/trending/movie/day?api_key=YOUR_API_KEY').
+    subscribe(data => {this.movies = data.results;
+    });
   }
 
   searchMovies() {
     
   }
 
-  goToMovieDetails() {
+  goToMovieDetails(movie: any) {
     
   }
 
