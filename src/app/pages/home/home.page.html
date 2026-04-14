@@ -10,4 +10,9 @@
     SEARCH
   </ion-button>
   <p>Today's Trending Movies</p>
+  <div *ngFor="let movie of movies" (click)="goToMovieDetails(movie)">
+    <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+    <p>{{movie.overview}}</p>
+    <hr>
+  </div>
 </ion-content>

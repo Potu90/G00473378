@@ -23,8 +23,6 @@ export class HomePage implements OnInit {
   ngOnInit() {
     //Show Trending Movies at the beggining
     this.getTrendingMovies();
-
-    console.log('API Key: ' + this.apiKey);
   }
 
   getTrendingMovies() {
