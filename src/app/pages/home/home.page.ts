@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonLabel, IonItem } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomePage implements OnInit {
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234'; //API key to authenticate requests 
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     //Show Trending Movies at the beggining
@@ -50,7 +51,8 @@ export class HomePage implements OnInit {
   }
 
   goToMovieDetails(movie: any) {
-    
+    // Navigate to movie details page passing the movie id
+    this.router.navigate(['/movie-details', movie.id]);
   }
 
   goToFavourites() {
