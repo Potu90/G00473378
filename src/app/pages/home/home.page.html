@@ -1,10 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <!-- Student number -->
     <ion-title>G00473378</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+  <ion-searchbar [(ngModel)]="searchText" placeholder="Movie Name"></ion-searchbar>
+  <ion-button expand="full" (click)="searchMovies()">SEARCH</ion-button>
+  <p>Today's Trending Movies</p>
 </ion-content>
