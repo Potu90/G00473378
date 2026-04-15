@@ -17,4 +17,28 @@ export class MovieDetailsPage implements OnInit {
   ngOnInit() {
   }
 
+  //Call web page to get cast and crew of selected movie
+  getMovieDetails() {
+
+  }
+
+  //Navigate to Home page
+  goToHome() {
+
+  }
+
+  //Navigate to Favourites page
+  goToFavourite() {
+
+  }
+
+  //Confirm if the movie is already a favourite
+  isFavourite() {
+
+  }
+
+  //Add the movie to the favourites list
+  addToFavourites() {
+
+  }
 }
