@@ -44,8 +44,6 @@ export class HomePage implements OnInit {
 
     //Call it with the search text and wait for the response
     this.http.get<any>(`https://api.themoviedb.org/3/search/movie?query=${this.searchText}&api_key=${this.apiKey}`).
-
-
     subscribe(data => {this.movies = data.results;
     });
   }
@@ -56,7 +54,8 @@ export class HomePage implements OnInit {
   }
 
   goToFavourites() {
-    
+    //Navigate to favourites page
+    this.router.navigate(['/favourites']);
   }
 
 }
