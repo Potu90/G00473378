@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { HttpOptions } from '@capacitor/core';
 import { MyHttpService } from 'src/app/services/my-http.service';
+import { MyDataService } from 'src/app/services/my-data.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -22,7 +23,7 @@ export class MovieDetailsPage implements OnInit {
   //API key to authenticate requests to TMDB
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
-  constructor(private mhs: MyHttpService) { }
+  constructor(private mhs: MyHttpService, private mds: MyDataService) { }
 
   ngOnInit() {
   }
