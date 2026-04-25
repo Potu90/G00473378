@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { HttpClient } from '@angular/common/http';
+import { HttpOptions } from '@capacitor/core';
+import { MyHttpService } from 'src/app/services/my-http.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -21,14 +22,19 @@ export class MovieDetailsPage implements OnInit {
   //API key to authenticate requests to TMDB
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
-  constructor(private http: HttpClient) { }
+  constructor(private mhs: MyHttpService) { }
 
   ngOnInit() {
   }
 
   //Call web page to get cast and crew of selected movie
-  getMovieDetails() {
-
+  async getMovieDetails(id: number) {
+    const options: HttpOptions = {
+      url: `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.apiKey}`
+    };
+    const data = await this.mhs.get(options);
+    this.cast = data.cast;
+    this.crew = data.crew;
   }
 
   //Navigate to Home page
