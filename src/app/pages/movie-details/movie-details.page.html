@@ -16,6 +16,16 @@
 
   <p>{{movie.overview}}</p>
 
+  <ion-button *ngIf="!favourite" (click)="addToFavourites()">
+    <ion-icon name="heart"></ion-icon>
+    Add To Favourites
+  </ion-button>
+  
+  <ion-button *ngIf="favourite" (click)="removeFromFavourites()">
+    <ion-icon name="heart"></ion-icon>
+    Remove From Favourites
+  </ion-button>
+
   <h2>Cast</h2>
   <div *ngFor="let person of cast">
     <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
