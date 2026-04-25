@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-movie-details',
@@ -11,8 +12,16 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class MovieDetailsPage implements OnInit {
+  //Array to store the cast members
+  cast: any[] = [];
 
-  constructor() { }
+  //Array to store the crew members
+  crew: any[] = [];
+
+  //API key to authenticate requests to TMDB
+  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
@@ -40,5 +49,15 @@ export class MovieDetailsPage implements OnInit {
   //Add the movie to the favourites list
   addToFavourites() {
 
+  }
+  
+  //Remove the movie from the favourites list
+  removeFromFavourites() {
+    
+  }
+
+  //Navigate to Details page for the selected cast or crew member
+  goToDetails() {
+    
   }
 }
