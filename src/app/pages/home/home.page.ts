@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton } from '@ionic/angular/standalone';
-import { HttpOptions } from '@capacitor/core';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader } from '@ionic/angular/standalone';import { HttpOptions } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
 
@@ -10,7 +9,7 @@ import { MyHttpService } from 'src/app/services/my-http.service';
   selector: 'app-home',
   templateUrl: './home.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonSearchbar, IonButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader, CommonModule, FormsModule]
 })
 export class HomePage implements OnInit {
 
