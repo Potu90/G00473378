@@ -51,7 +51,7 @@ export class DetailsPage implements OnInit {
 
   //Navigate to Movie Details page for the selected movie
   goToMovieDetails(movie: any) {
-
+    this.router.navigate(['/movie-details', movie.id]);
   }
 
 }
