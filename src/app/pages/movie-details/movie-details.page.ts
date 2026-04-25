@@ -6,12 +6,15 @@ import { HttpOptions } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
 import { MyDataService } from 'src/app/services/my-data.service';
+import { IonButtons, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { home, heart } from 'ionicons/icons';
 
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, CommonModule, FormsModule]
 })
 export class MovieDetailsPage implements OnInit {
 
@@ -27,8 +30,10 @@ export class MovieDetailsPage implements OnInit {
   //API key to authenticate requests to TMDB
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
-  constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute) { }
-
+  constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute) {
+    addIcons({ home, heart });
+  }
+  
   ngOnInit() {
     //Get the movie id from the URL and call the API
     const id = Number(this.route.snapshot.paramMap.get('id'));
