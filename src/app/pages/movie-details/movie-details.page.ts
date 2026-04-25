@@ -6,16 +6,17 @@ import { HttpOptions } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
 import { MyDataService } from 'src/app/services/my-data.service';
-import { IonButtons, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonButtons, IonButton, IonIcon, IonItem } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { home, heart } from 'ionicons/icons';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, CommonModule, FormsModule]
 })
 export class MovieDetailsPage implements OnInit {
 
@@ -128,6 +129,7 @@ export class MovieDetailsPage implements OnInit {
 
   //Navigate to Details page for the selected cast or crew member
   goToDetails(person: any) {
+    console.log('Going to details with person:', person);
     this.router.navigate(['/details', person.id]);
   }
 }
