@@ -41,7 +41,6 @@ export class MovieDetailsPage implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getMovieDetails(id);
-    this.checkFavourite();
   }
 
   //Call web page to get movie details, cast and crew of selected movie
@@ -59,6 +58,9 @@ export class MovieDetailsPage implements OnInit {
     const data = await this.mhs.get(creditsOptions);
     this.cast = data.cast;
     this.crew = data.crew;
+
+    //Check if this movie is in favourites after loading
+    this.checkFavourite();
   }
 
   //Navigate to Home page
@@ -120,12 +122,12 @@ export class MovieDetailsPage implements OnInit {
   }
 
   //Update the favourite status
-async checkFavourite() {
-  this.favourite = await this.isFavourite();
-}
+  async checkFavourite() {
+    this.favourite = await this.isFavourite();
+  }
 
   //Navigate to Details page for the selected cast or crew member
-  goToDetails() {
-
+  goToDetails(person: any) {
+    this.router.navigate(['/details', person.id]);
   }
 }
