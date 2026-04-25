@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonList, IonListHeader } from '@ionic/angular/standalone';
 import { MyHttpService } from 'src/app/services/my-http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpOptions } from '@capacitor/core';
@@ -10,7 +10,7 @@ import { HttpOptions } from '@capacitor/core';
   selector: 'app-details',
   templateUrl: './details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem, IonLabel, IonList, IonListHeader]
 })
 export class DetailsPage implements OnInit {
 

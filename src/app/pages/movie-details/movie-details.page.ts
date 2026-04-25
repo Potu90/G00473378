@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonListHeader, IonList } from '@ionic/angular/standalone';
 import { HttpOptions } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   selector: 'app-movie-details',
   templateUrl: './movie-details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, CommonModule, FormsModule, IonLabel, IonListHeader, IonList]
 })
 export class MovieDetailsPage implements OnInit {
 

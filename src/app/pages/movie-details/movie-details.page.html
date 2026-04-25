@@ -14,7 +14,9 @@
 
 <ion-content [fullscreen]="true" *ngIf="movie">
 
-  <p>{{movie.overview}}</p>
+  <ion-item>
+    <ion-label>{{movie.overview}}</ion-label>
+  </ion-item>
 
   <ion-button *ngIf="!favourite" (click)="addToFavourites()">
     <ion-icon name="heart"></ion-icon>
@@ -26,19 +28,30 @@
     Remove From Favourites
   </ion-button>
 
-  <h2>Cast</h2>
-<ion-item *ngFor="let person of cast" button="true" (click)="goToDetails(person)">
-  <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
-  <p>{{person.character}}</p>
-  <p>{{person.name}}</p>
-</ion-item>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Cast</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let person of cast" button="true" (click)="goToDetails(person)">
+      <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+      <ion-label>
+        <p>{{person.character}}</p>
+        <p>{{person.name}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <h2>Crew</h2>
-  <div *ngFor="let person of crew" (click)="goToDetails(person)">
-    <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
-    <p>{{person.job}}</p>
-    <p>{{person.name}}</p>
-    <hr>
-  </div>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Crew</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let person of crew" button="true" (click)="goToDetails(person)">
+      <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+      <ion-label>
+        <p>{{person.job}}</p>
+        <p>{{person.name}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

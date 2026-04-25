@@ -6,16 +6,36 @@
 
 <ion-content [fullscreen]="true" *ngIf="person">
   <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
-  <p>{{person.name}}</p>
-  <p>{{person.birthday}} - {{person.deathday}}</p>
-  <p>{{person.place_of_birth}}</p>
-  <p *ngFor="let aka of person.also_known_as">{{aka}}</p>
-  <p>{{person.biography}}</p>
 
-  <h2>Other Movies</h2>
-  <div *ngFor="let movie of movies">
-    <p>{{movie.title}}</p>
-    <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
-    <hr>
-  </div>
+  <ion-item>
+    <ion-label>{{person.name}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>{{person.birthday}} - {{person.deathday}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>{{person.place_of_birth}}</ion-label>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let aka of person.also_known_as">
+      <ion-label>{{aka}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-label>{{person.biography}}</ion-label>
+  </ion-item>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Other Movies</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let movie of movies" button="true" (click)="goToMovieDetails(movie)">
+      <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+      <ion-label>{{movie.title}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
