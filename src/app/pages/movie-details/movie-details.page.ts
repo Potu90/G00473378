@@ -31,14 +31,17 @@ export class MovieDetailsPage implements OnInit {
   //API key to authenticate requests to TMDB
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
+  //Variable to track if the movie is a favourite
+  favourite: boolean = false;
+
   constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute, private router: Router) {
     addIcons({ home, heart });
   }
 
   ngOnInit() {
-    //Get the movie id from the URL and call the API
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getMovieDetails(id);
+    this.checkFavourite();
   }
 
   //Call web page to get movie details, cast and crew of selected movie
@@ -68,11 +71,6 @@ export class MovieDetailsPage implements OnInit {
     this.router.navigate(['/favourites']);
   }
 
-  //Confirm if the movie is already a favourite
-  isFavourite() {
-
-  }
-
   //Add the movie to the favourites list
   async addToFavourites() {
     //Get the current favourites list (or empty array if none)
@@ -83,12 +81,48 @@ export class MovieDetailsPage implements OnInit {
 
     //Save the updated list
     await this.mds.set('favourites', favourites);
+
+    //Change status of favourite
+    this.favourite = true;
   }
 
   //Remove the movie from the favourites list
-  removeFromFavourites() {
+  async removeFromFavourites() {
+    //Get the current favourites list
+    let favourites = await this.mds.get('favourites') || [];
 
+    //Loop through the list and find the movie to remove
+    for (let i = 0; i < favourites.length; i++) {
+      if (favourites[i].id == this.movie.id) {
+        favourites.splice(i, 1);
+        break;
+      }
+    }
+    //Save the updated list
+    await this.mds.set('favourites', favourites);
+    //Change status of favourite
+    this.favourite = false;
   }
+
+  //Confirm if the movie is already a favourite
+  async isFavourite() {
+    //Get the current favourites list
+    let favourites = await this.mds.get('favourites') || [];
+
+    //Loop through the list and check if the current movie is there
+    for (let i = 0; i < favourites.length; i++) {
+      if (favourites[i].id == this.movie.id) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  //Update the favourite status
+async checkFavourite() {
+  this.favourite = await this.isFavourite();
+}
 
   //Navigate to Details page for the selected cast or crew member
   goToDetails() {
