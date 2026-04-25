@@ -9,6 +9,7 @@ import { MyDataService } from 'src/app/services/my-data.service';
 import { IonButtons, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { home, heart } from 'ionicons/icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-details',
@@ -30,10 +31,10 @@ export class MovieDetailsPage implements OnInit {
   //API key to authenticate requests to TMDB
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
 
-  constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute) {
+  constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute, private router: Router) {
     addIcons({ home, heart });
   }
-  
+
   ngOnInit() {
     //Get the movie id from the URL and call the API
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -59,12 +60,12 @@ export class MovieDetailsPage implements OnInit {
 
   //Navigate to Home page
   goToHome() {
-
+    this.router.navigate(['/home']);
   }
 
   //Navigate to Favourites page
   goToFavourite() {
-
+    this.router.navigate(['/favourites']);
   }
 
   //Confirm if the movie is already a favourite
@@ -73,8 +74,15 @@ export class MovieDetailsPage implements OnInit {
   }
 
   //Add the movie to the favourites list
-  addToFavourites() {
+  async addToFavourites() {
+    //Get the current favourites list (or empty array if none)
+    let favourites = await this.mds.get('favourites') || [];
 
+    //Add the current movie to the list
+    favourites.push(this.movie);
+
+    //Save the updated list
+    await this.mds.set('favourites', favourites);
   }
 
   //Remove the movie from the favourites list
