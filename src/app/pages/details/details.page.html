@@ -1,13 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-title>{{person.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content [fullscreen]="true">
+    <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+    <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+    <p>{{person.name}}</p>
+    <p>{{person.name}}</p>
+    <p>{{person.birthday}} - {{person.deathday}}</p>
+    <p>{{person.place_of_birth}}</p>
+    <p *ngFor="let aka of person.also_known_as">{{aka}}</p>
+    <p>{{person.biography}}</p>
+
+    <h2>Other Movies</h2>
+    <div *ngFor="let movie of movies">
+      <p>{{movie.title}}</p>
+      <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+      <hr>
+    </div>
+  </ion-content>
 </ion-content>

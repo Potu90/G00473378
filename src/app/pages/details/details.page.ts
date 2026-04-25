@@ -12,6 +12,12 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 })
 export class DetailsPage implements OnInit {
 
+  //Person data (cast or crew member)
+  person: any;
+
+  //Array to store the movies the person has been in
+  movies: any[] = [];
+
   constructor() { }
 
   ngOnInit() {
