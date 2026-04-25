@@ -6,9 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar [(ngModel)]="searchText" placeholder="Movie Name"></ion-searchbar>
-  <ion-button expand="full" (click)="searchMovies()">
-    SEARCH
-  </ion-button>
+  <ion-button expand="full" (click)="searchMovies()">SEARCH</ion-button>
   <p>Today's Trending Movies</p>
   <div *ngFor="let movie of movies" (click)="goToMovieDetails(movie)">
     <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
