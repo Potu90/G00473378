@@ -10,10 +10,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar [(ngModel)]="searchText" placeholder="Movie Name"></ion-searchbar>
-  <ion-button expand="full" (click)="searchMovies()">SEARCH</ion-button>
+  <ion-searchbar
+    [(ngModel)]="searchText"
+    placeholder="Movie Name"
+    (ionFocus)="openRecentSearches()"
+    (ionBlur)="closeRecentSearches()">
+  </ion-searchbar>
 
-  <ion-list *ngIf="recentSearches.length > 0">
+  <ion-button expand="full" (click)="searchMovies()">SEARCH</ion-button>
+  <ion-button expand="full" fill="outline" *ngIf="searchText != ''" (click)="backToTrending()">
+    BACK TO TRENDING
+  </ion-button>
+
+  <ion-list *ngIf="showRecentSearches && recentSearches.length > 0">
     <ion-list-header>
       <ion-label>Recent Searches</ion-label>
     </ion-list-header>
@@ -25,7 +34,7 @@
   <ion-list>
     <ion-list-header>
       <ion-label *ngIf="searchText == ''">Today's Trending Movies</ion-label>
-      <ion-label *ngIf="searchText != ''">{{searchText}} Movies</ion-label>
+      <ion-label *ngIf="searchText != ''">{{searchText | titlecase}} Movies</ion-label>
     </ion-list-header>
     <ion-item *ngFor="let movie of movies" (click)="goToMovieDetails(movie)">
       <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />

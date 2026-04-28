@@ -18,10 +18,11 @@ import { heart } from 'ionicons/icons';
 
 export class HomePage implements OnInit {
 
-  movies: any[] = [];                                  //Array to store the list of movies
-  searchText: string = '';                             //Variable to store the search text entered by the user
-  recentSearches: string[] = [];                       //Array of recent search terms loaded from storage
-  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234'; //API key to authenticate requests
+  searchText: string = '';                              //Variable to store the search text entered by the user
+  movies: any[] = [];                                   //Array to store the list of movies
+  recentSearches: string[] = [];                        //Array of recent search terms loaded from storage
+  showRecentSearches: boolean = false;                  //Controls if the recent searches dropdown is open
+  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';  //API key to authenticate requests
 
 
   constructor(private mhs: MyHttpService, private mds: MyDataService, private router: Router) {
@@ -29,24 +30,19 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    //Show Trending Movies at the beggining
-    this.getTrendingMovies();
-    //Load recent searches from storage
-    this.loadRecentSearches();
+    this.getTrendingMovies();       //Show Trending Movies at the beggining
+    this.loadRecentSearches();      //Load recent searches from storage
+
   }
 
-  //Navigate to favourites page
-  goToFavourites() {
-    this.router.navigate(['/favourites']);
-  }
-
-  //Reload recent searches every time the user enters this page
+  //Runs every time the user enters this page
   async ionViewWillEnter() {
+    //Reload recent searches in case they changed
     await this.loadRecentSearches();
   }
 
+  //Call web page to get today's trending movies
   async getTrendingMovies() {
-    //Call web page to get today's trending movies
     const options: HttpOptions = {
       url: `https://api.themoviedb.org/3/trending/movie/day?api_key=${this.apiKey}`
     };
@@ -54,6 +50,31 @@ export class HomePage implements OnInit {
     this.movies = data.results;
   }
 
+  //Load recent searches from storage
+  async loadRecentSearches() {
+    let data = await this.mds.get('searches');
+    //If there are no searches yet, use empty array
+    if (data == null) {
+      this.recentSearches = [];
+    } else {
+      this.recentSearches = data;
+    }
+  }
+
+  //Open the recent searches dropdown when searchbar gets focus
+  openRecentSearches() {
+    this.showRecentSearches = true;
+  }
+
+  //Close the recent searches dropdown when searchbar loses focus
+  closeRecentSearches() {
+    //Small delay so the click on a recent search registers before the dropdown closes
+    setTimeout(() => {
+      this.showRecentSearches = false;
+    }, 200);
+  }
+
+  //Search movies using the text entered by the user
   async searchMovies() {
     //If search is empty, show trending movies
     if (this.searchText == '') {
@@ -70,17 +91,6 @@ export class HomePage implements OnInit {
 
     //Save the search term to recent searches
     await this.saveSearch(this.searchText);
-  }
-
-  //Load recent searches from storage
-  async loadRecentSearches() {
-    let data = await this.mds.get('searches');
-    //If there are no searches yet, use empty array
-    if (data == null) {
-      this.recentSearches = [];
-    } else {
-      this.recentSearches = data;
-    }
   }
 
   //Save a search term to the recent searches list
@@ -117,12 +127,25 @@ export class HomePage implements OnInit {
   //Run a search again from the recent searches list
   searchAgain(term: string) {
     this.searchText = term;
+    this.showRecentSearches = false;
     this.searchMovies();
   }
 
+  //Navigate to movie details page passing the movie id
   goToMovieDetails(movie: any) {
-    //Navigate to movie details page passing the movie id
     this.router.navigate(['/movie-details', movie.id]);
+  }
+
+  //Navigate to favourites page
+  goToFavourites() {
+    this.router.navigate(['/favourites']);
+  }
+
+  //Reset search and show trending movies again
+  backToTrending() {
+    this.searchText = '';
+    this.showRecentSearches = false;
+    this.getTrendingMovies();
   }
 
 }
