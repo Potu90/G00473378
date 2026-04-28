@@ -27,12 +27,17 @@ export class HomePage implements OnInit {
   constructor(private mhs: MyHttpService, private mds: MyDataService, private router: Router) {
     addIcons({ heart });
   }
-  
+
   ngOnInit() {
     //Show Trending Movies at the beggining
     this.getTrendingMovies();
     //Load recent searches from storage
     this.loadRecentSearches();
+  }
+
+  //Navigate to favourites page
+  goToFavourites() {
+    this.router.navigate(['/favourites']);
   }
 
   //Reload recent searches every time the user enters this page
@@ -118,11 +123,6 @@ export class HomePage implements OnInit {
   goToMovieDetails(movie: any) {
     //Navigate to movie details page passing the movie id
     this.router.navigate(['/movie-details', movie.id]);
-  }
-
-  goToFavourites() {
-    //Navigate to favourites page
-    this.router.navigate(['/favourites']);
   }
 
 }
