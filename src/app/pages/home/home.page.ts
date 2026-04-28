@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader, IonButtons, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader, IonButtons, IonIcon, IonBadge } from '@ionic/angular/standalone';
 import { HttpOptions } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
@@ -13,7 +13,7 @@ import { heart } from 'ionicons/icons';
   selector: 'app-home',
   templateUrl: './home.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader, IonButtons, IonIcon, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonItem, IonLabel, IonList, IonListHeader, IonButtons, IonIcon, IonBadge, CommonModule, FormsModule]
 })
 
 export class HomePage implements OnInit {
@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
   movies: any[] = [];                                   //Array to store the list of movies
   recentSearches: string[] = [];                        //Array of recent search terms loaded from storage
   showRecentSearches: boolean = false;                  //Controls if the recent searches dropdown is open
+  favouritesCount: number = 0;                          //Number of favourite movies, shown as a badge
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';  //API key to authenticate requests
 
 
@@ -29,16 +30,18 @@ export class HomePage implements OnInit {
     addIcons({ heart });
   }
 
+  //Runs once when the page is created
   ngOnInit() {
-    this.getTrendingMovies();       //Show Trending Movies at the beggining
-    this.loadRecentSearches();      //Load recent searches from storage
-
+    this.getTrendingMovies();         //Show Trending Movies at the beggining
+    this.loadRecentSearches();        //Load recent searches from storage
+    this.loadFavouritesCount();       //Load number of favourites for the badge
   }
 
   //Runs every time the user enters this page
   async ionViewWillEnter() {
-    //Reload recent searches in case they changed
+    //Reload recent searches and favourites count in case they changed
     await this.loadRecentSearches();
+    await this.loadFavouritesCount();
   }
 
   //Call web page to get today's trending movies
@@ -58,6 +61,17 @@ export class HomePage implements OnInit {
       this.recentSearches = [];
     } else {
       this.recentSearches = data;
+    }
+  }
+
+  //Load the number of favourites from storage to show in the badge
+  async loadFavouritesCount() {
+    let data = await this.mds.get('favourites');
+    //If there are no favourites yet, count is 0
+    if (data == null) {
+      this.favouritesCount = 0;
+    } else {
+      this.favouritesCount = data.length;
     }
   }
 
@@ -131,6 +145,13 @@ export class HomePage implements OnInit {
     this.searchMovies();
   }
 
+  //Reset search and show trending movies again
+  backToTrending() {
+    this.searchText = '';
+    this.showRecentSearches = false;
+    this.getTrendingMovies();
+  }
+
   //Navigate to movie details page passing the movie id
   goToMovieDetails(movie: any) {
     this.router.navigate(['/movie-details', movie.id]);
@@ -139,13 +160,6 @@ export class HomePage implements OnInit {
   //Navigate to favourites page
   goToFavourites() {
     this.router.navigate(['/favourites']);
-  }
-
-  //Reset search and show trending movies again
-  backToTrending() {
-    this.searchText = '';
-    this.showRecentSearches = false;
-    this.getTrendingMovies();
   }
 
 }
