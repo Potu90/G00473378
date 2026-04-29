@@ -34,7 +34,8 @@
       <ion-label>Cast</ion-label>
     </ion-list-header>
     <ion-item *ngFor="let person of cast" button="true" (click)="goToDetails(person)">
-      <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+      <img *ngIf="person.profile_path" [src]="'https://image.tmdb.org/t/p/w185' + person.profile_path" />
+      <ion-label *ngIf="!person.profile_path">No image</ion-label>
       <ion-label>
         <p>{{person.character}}</p>
         <p>{{person.name}}</p>
@@ -47,7 +48,8 @@
       <ion-label>Crew</ion-label>
     </ion-list-header>
     <ion-item *ngFor="let person of crew" button="true" (click)="goToDetails(person)">
-      <img [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+      <img *ngIf="person.profile_path" [src]="'https://image.tmdb.org/t/p/w185' + person.profile_path" />
+      <ion-label *ngIf="!person.profile_path">No image</ion-label>
       <ion-label>
         <p>{{person.job}}</p>
         <p>{{person.name}}</p>

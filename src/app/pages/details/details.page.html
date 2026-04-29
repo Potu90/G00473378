@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="person">
-  <img *ngIf="person.profile_path" [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+  <img *ngIf="person.profile_path" [src]="'https://image.tmdb.org/t/p/w185' + person.profile_path" />
   <ion-item *ngIf="!person.profile_path">
     <ion-label>No image</ion-label>
   </ion-item>
@@ -38,7 +38,7 @@
     </ion-list-header>
     <ion-item *ngFor="let movie of movies" button="true" (click)="goToMovieDetails(movie)">
       <ion-label>{{movie.title}}</ion-label>
-      <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w200' + movie.poster_path" slot="end" />
+      <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w154' + movie.poster_path" slot="end" />
       <ion-label *ngIf="!movie.poster_path" slot="end">No image</ion-label>
     </ion-item>
   </ion-list>
