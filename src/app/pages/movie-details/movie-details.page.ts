@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList, IonBadge } from '@ionic/angular/standalone';
 import { HttpOptions } from '@capacitor/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
@@ -13,7 +13,7 @@ import { home, heart } from 'ionicons/icons';
   selector: 'app-movie-details',
   templateUrl: './movie-details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList, IonBadge, CommonModule, FormsModule]
 })
 export class MovieDetailsPage implements OnInit {
 
@@ -21,6 +21,7 @@ export class MovieDetailsPage implements OnInit {
   cast: any[] = [];                                     //Array to store the cast members
   crew: any[] = [];                                     //Array to store the crew members
   favourite: boolean = false;                           //Variable to track if the movie is a favourite
+  favouritesCount: number = 0;                          //Number of favourite movies, shown as a badge
   apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';  //API key to authenticate requests to TMDB
 
 
@@ -32,6 +33,7 @@ export class MovieDetailsPage implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getMovieDetails(id);
+    this.loadFavouritesCount();
   }
 
   //Call web page to get movie details, cast and crew of selected movie
@@ -52,6 +54,17 @@ export class MovieDetailsPage implements OnInit {
 
     //Check if this movie is in favourites after loading
     this.checkFavourite();
+  }
+
+  //Load the number of favourites from storage to show in the badge
+  async loadFavouritesCount() {
+    let data = await this.mds.get('favourites');
+    //If there are no favourites yet, count is 0
+    if (data == null) {
+      this.favouritesCount = 0;
+    } else {
+      this.favouritesCount = data.length;
+    }
   }
 
   //Confirm if the movie is already a favourite
@@ -86,6 +99,9 @@ export class MovieDetailsPage implements OnInit {
 
     //Change status of favourite
     this.favourite = true;
+
+    //Refresh the badge count
+    await this.loadFavouritesCount();
   }
 
   //Remove the movie from the favourites list
@@ -106,6 +122,9 @@ export class MovieDetailsPage implements OnInit {
 
     //Change status of favourite
     this.favourite = false;
+
+    //Refresh the badge count
+    await this.loadFavouritesCount();
   }
 
   //Navigate to Details page for the selected cast or crew member
