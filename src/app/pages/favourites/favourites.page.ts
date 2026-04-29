@@ -4,7 +4,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, Ion
 import { Router } from '@angular/router';
 import { MyDataService } from '../../services/my-data.service';
 import { addIcons } from 'ionicons';
-import { home } from 'ionicons/icons';
+import { home, close } from 'ionicons/icons';
 
 @Component({
   selector: 'app-favourites',
@@ -18,7 +18,7 @@ export class FavouritesPage implements OnInit {
   favourites: any[] = [];
 
   constructor(private router: Router, private mds: MyDataService) {
-    addIcons({ home });
+    addIcons({ home, close });
   }
 
   //Runs once when the page is created
@@ -39,6 +39,20 @@ export class FavouritesPage implements OnInit {
     } else {
       this.favourites = data;
     }
+  }
+
+  //Remove a single movie from favourites
+  async removeFavourite(movie: any) {
+    //Loop through the list and find the movie to remove
+    for (let i = 0; i < this.favourites.length; i++) {
+      if (this.favourites[i].id == movie.id) {
+        this.favourites.splice(i, 1);
+        break;
+      }
+    }
+
+    //Save the updated list to storage
+    await this.mds.set('favourites', this.favourites);
   }
 
   //Remove all favourite movies after asking for confirmation

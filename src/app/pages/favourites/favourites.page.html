@@ -34,6 +34,9 @@
       <ion-label>
         <h2>{{ movie.title }}</h2>
       </ion-label>
+      <ion-button slot="end" color="danger" (click)="removeFavourite(movie)">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button slot="end" (click)="goToMovieDetails(movie)">Details</ion-button>
     </ion-item>
   </ion-list>

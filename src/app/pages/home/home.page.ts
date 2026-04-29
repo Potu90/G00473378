@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
     this.loadFavouritesCount();       //Load number of favourites for the badge
   }
 
-  //Runs every time the user enters this page
+  //Runs every time the user enters this page (it is a lifecycle hook for everytime is navigated to)
   async ionViewWillEnter() {
     //Reload recent searches and favourites count in case they changed
     await this.loadRecentSearches();
@@ -46,9 +46,7 @@ export class HomePage implements OnInit {
 
   //Call web page to get today's trending movies
   async getTrendingMovies() {
-    const options: HttpOptions = {
-      url: `https://api.themoviedb.org/3/trending/movie/day?api_key=${this.apiKey}`
-    };
+    const options: HttpOptions = {url: `https://api.themoviedb.org/3/trending/movie/day?api_key=${this.apiKey}`};
     const data = await this.mhs.get(options);
     this.movies = data.results;
   }
