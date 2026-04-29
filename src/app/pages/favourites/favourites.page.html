@@ -28,10 +28,10 @@
     </ion-item>
 
     <ion-item *ngFor="let movie of favourites">
-      <ion-thumbnail slot="start" *ngIf="movie.poster_path">
-        <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }}">
+      <ion-thumbnail slot="start">
+        <img *ngIf="movie.poster_path" src="https://image.tmdb.org/t/p/w154{{ movie.poster_path }}" alt="{{ movie.title }}">
+        <ion-label *ngIf="!movie.poster_path">No image</ion-label>
       </ion-thumbnail>
-      <ion-label slot="start" *ngIf="!movie.poster_path">No image</ion-label>
       <ion-label>
         <h2>{{ movie.title }}</h2>
       </ion-label>
