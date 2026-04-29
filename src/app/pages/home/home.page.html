@@ -41,7 +41,8 @@
       <ion-label>No movies found for "{{searchText | titlecase}}"</ion-label>
     </ion-item>
     <ion-item *ngFor="let movie of movies" (click)="goToMovieDetails(movie)">
-      <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+      <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+      <ion-label *ngIf="!movie.poster_path">No image</ion-label>
       <ion-label>{{movie.overview}}</ion-label>
     </ion-item>
   </ion-list>
