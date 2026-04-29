@@ -1,44 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonListHeader, IonList } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList } from '@ionic/angular/standalone';
 import { HttpOptions } from '@capacitor/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MyHttpService } from 'src/app/services/my-http.service';
 import { MyDataService } from 'src/app/services/my-data.service';
-import { IonButtons, IonButton, IonIcon, IonItem } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { home, heart } from 'ionicons/icons';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.page.html',
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, CommonModule, FormsModule, IonLabel, IonListHeader, IonList]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonItem, IonLabel, IonListHeader, IonList, CommonModule, FormsModule]
 })
 export class MovieDetailsPage implements OnInit {
 
-  //Movie data received from Home Page
-  movie: any;
+  movie: any;                                           //Movie data received from Home Page
+  cast: any[] = [];                                     //Array to store the cast members
+  crew: any[] = [];                                     //Array to store the crew members
+  favourite: boolean = false;                           //Variable to track if the movie is a favourite
+  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';  //API key to authenticate requests to TMDB
 
-  //Array to store the cast members
-  cast: any[] = [];
-
-  //Array to store the crew members
-  crew: any[] = [];
-
-  //API key to authenticate requests to TMDB
-  apiKey: string = '04b4a3b05536f796e2be2bb50fb5c234';
-
-  //Variable to track if the movie is a favourite
-  favourite: boolean = false;
 
   constructor(private mhs: MyHttpService, private mds: MyDataService, private route: ActivatedRoute, private router: Router) {
     addIcons({ home, heart });
   }
 
+  //Runs once when the page is created, reads the movie id from the URL
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getMovieDetails(id);
@@ -64,14 +54,23 @@ export class MovieDetailsPage implements OnInit {
     this.checkFavourite();
   }
 
-  //Navigate to Home page
-  goToHome() {
-    this.router.navigate(['/home']);
+  //Confirm if the movie is already a favourite
+  async isFavourite() {
+    //Get the current favourites list
+    let favourites = await this.mds.get('favourites') || [];
+
+    //Loop through the list and check if the current movie is there
+    for (let i = 0; i < favourites.length; i++) {
+      if (favourites[i].id == this.movie.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  //Navigate to Favourites page
-  goToFavourite() {
-    this.router.navigate(['/favourites']);
+  //Update the favourite status
+  async checkFavourite() {
+    this.favourite = await this.isFavourite();
   }
 
   //Add the movie to the favourites list
@@ -101,35 +100,26 @@ export class MovieDetailsPage implements OnInit {
         break;
       }
     }
+
     //Save the updated list
     await this.mds.set('favourites', favourites);
+
     //Change status of favourite
     this.favourite = false;
   }
 
-  //Confirm if the movie is already a favourite
-  async isFavourite() {
-    //Get the current favourites list
-    let favourites = await this.mds.get('favourites') || [];
-
-    //Loop through the list and check if the current movie is there
-    for (let i = 0; i < favourites.length; i++) {
-      if (favourites[i].id == this.movie.id) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  //Update the favourite status
-  async checkFavourite() {
-    this.favourite = await this.isFavourite();
-  }
-
   //Navigate to Details page for the selected cast or crew member
   goToDetails(person: any) {
-    console.log('Going to details with person:', person);
     this.router.navigate(['/details', person.id]);
+  }
+
+  //Navigate to Home page
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  //Navigate to Favourites page
+  goToFavourite() {
+    this.router.navigate(['/favourites']);
   }
 }

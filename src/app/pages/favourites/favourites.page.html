@@ -11,6 +11,13 @@
 
 <ion-content [fullscreen]="true">
 
+  <ion-item *ngIf="favourites.length == 1">
+    <ion-label>You have 1 favourite movie</ion-label>
+  </ion-item>
+  <ion-item *ngIf="favourites.length > 1">
+    <ion-label>You have {{favourites.length}} favourite movies</ion-label>
+  </ion-item>
+
   <ion-list>
     <ion-list-header>
       <ion-label>My Favourite Movies</ion-label>
@@ -30,5 +37,9 @@
       <ion-button slot="end" (click)="goToMovieDetails(movie)">Details</ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-button expand="full" color="danger" *ngIf="favourites.length > 0" (click)="clearAllFavourites()">
+    CLEAR ALL FAVOURITES
+  </ion-button>
 
 </ion-content>
