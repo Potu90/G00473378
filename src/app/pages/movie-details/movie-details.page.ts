@@ -17,7 +17,7 @@ import { home, heart } from 'ionicons/icons';
 })
 export class MovieDetailsPage implements OnInit {
 
-  movie: any;                                           //Movie data received from Home Page
+  movie: any;                                           //Movie data loaded from TMDB
   cast: any[] = [];                                     //Array to store the cast members
   crew: any[] = [];                                     //Array to store the crew members
   favourite: boolean = false;                           //Variable to track if the movie is a favourite
