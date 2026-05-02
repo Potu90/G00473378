@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
   async loadRecentSearches() {
     let data = await this.mds.get('searches');
     //If there are no searches yet, use empty array
-    if (data == null) {
+    if (data === null) {
       this.recentSearches = [];
     } else {
       this.recentSearches = data;
@@ -66,7 +66,7 @@ export class HomePage implements OnInit {
   async loadFavouritesCount() {
     let data = await this.mds.get('favourites');
     //If there are no favourites yet, count is 0
-    if (data == null) {
+    if (data === null) {
       this.favouritesCount = 0;
     } else {
       this.favouritesCount = data.length;
@@ -89,7 +89,7 @@ export class HomePage implements OnInit {
   //Search movies using the text entered by the user
   async searchMovies() {
     //If search is empty, show trending movies
-    if (this.searchText == '') {
+    if (this.searchText === '') {
       this.getTrendingMovies();
       return;
     }
@@ -109,13 +109,13 @@ export class HomePage implements OnInit {
   async saveSearch(term: string) {
     //Get current list from storage
     let searches = await this.mds.get('searches');
-    if (searches == null) {
+    if (searches === null) {
       searches = [];
     }
 
     //Remove the term if it already exists to avoid duplicates
     for (let i = 0; i < searches.length; i++) {
-      if (searches[i] == term) {
+      if (searches[i] === term) {
         searches.splice(i, 1);
         break;
       }

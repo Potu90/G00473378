@@ -34,7 +34,7 @@ export class FavouritesPage implements OnInit {
   async loadFavourites() {
     let data = await this.mds.get('favourites');
     //If there are no favourites yet, use empty array
-    if (data == null) {
+    if (data === null) {
       this.favourites = [];
     } else {
       this.favourites = data;
@@ -45,7 +45,7 @@ export class FavouritesPage implements OnInit {
   async removeFavourite(movie: any) {
     //Loop through the list and find the movie to remove
     for (let i = 0; i < this.favourites.length; i++) {
-      if (this.favourites[i].id == movie.id) {
+      if (this.favourites[i].id === movie.id) {
         this.favourites.splice(i, 1);
         break;
       }
@@ -59,7 +59,7 @@ export class FavouritesPage implements OnInit {
   async clearAllFavourites() {
     //Ask the user for confirmation before deleting everything
     let confirmation = confirm('Are you sure you want to remove all favourites?');
-    if (confirmation == false) {
+    if (confirmation === false) {
       return;
     }
 

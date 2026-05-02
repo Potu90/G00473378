@@ -60,7 +60,7 @@ export class MovieDetailsPage implements OnInit {
   async loadFavouritesCount() {
     let data = await this.mds.get('favourites');
     //If there are no favourites yet, count is 0
-    if (data == null) {
+    if (data === null) {
       this.favouritesCount = 0;
     } else {
       this.favouritesCount = data.length;
@@ -70,11 +70,11 @@ export class MovieDetailsPage implements OnInit {
   //Confirm if the movie is already a favourite
   async isFavourite() {
     //Get the current favourites list
-    let favourites = await this.mds.get('favourites') || [];
+    let favourites = await this.mds.get('favourites') ?? [];
 
     //Loop through the list and check if the current movie is there
     for (let i = 0; i < favourites.length; i++) {
-      if (favourites[i].id == this.movie.id) {
+      if (favourites[i].id === this.movie.id) {
         return true;
       }
     }
@@ -89,7 +89,7 @@ export class MovieDetailsPage implements OnInit {
   //Add the movie to the favourites list
   async addToFavourites() {
     //Get the current favourites list (or empty array if none)
-    let favourites = await this.mds.get('favourites') || [];
+    let favourites = await this.mds.get('favourites') ?? [];
 
     //Add the current movie to the list
     favourites.push(this.movie);
@@ -107,11 +107,11 @@ export class MovieDetailsPage implements OnInit {
   //Remove the movie from the favourites list
   async removeFromFavourites() {
     //Get the current favourites list
-    let favourites = await this.mds.get('favourites') || [];
+    let favourites = await this.mds.get('favourites') ?? [];
 
     //Loop through the list and find the movie to remove
     for (let i = 0; i < favourites.length; i++) {
-      if (favourites[i].id == this.movie.id) {
+      if (favourites[i].id === this.movie.id) {
         favourites.splice(i, 1);
         break;
       }
